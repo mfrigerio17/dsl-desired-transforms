@@ -1,0 +1,28 @@
+grammar iit.dsl.transspecs.TransSpecs with iit.dsl.coord.CoordTransDsl
+
+import "http://www.dsl.iit/CoordTransDsl" as coordTrans
+    
+generate transSpecs "http://www.dsl.iit/TransSpecs"
+
+TransformsDeclaration:
+    "Robot" name= ID
+    framesList = FramesList
+    transforms = TransformsList
+    jacobians = JacobiansList
+;
+
+TransformsList: {TransformsList}
+    "Transforms" "{"
+        specs+=FramePair*
+    "}"
+;
+
+JacobiansList: {JacobiansList}
+    "Jacobians" "{"
+       specs+=FramePair*
+    "}"
+;
+
+FramePair:
+    "base""="base=[coordTrans::Frame]"," "target""="target=[coordTrans::Frame]
+;
