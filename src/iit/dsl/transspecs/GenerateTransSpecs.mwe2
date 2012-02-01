@@ -5,7 +5,7 @@ import org.eclipse.xtext.generator.*
 import org.eclipse.xtext.ui.generator.*
 
 var grammarURI = "classpath:/iit/dsl/transspecs/TransSpecs.xtext"
-var file.extensions = "tsdsl"
+var file.extensions = "dtdsl"
 var projectName = "transspecs"
 var runtimeProject = "../${projectName}"
 

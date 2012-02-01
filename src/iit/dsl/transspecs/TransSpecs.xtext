@@ -4,7 +4,7 @@ import "http://www.dsl.iit/CoordTransDsl" as coordTrans
     
 generate transSpecs "http://www.dsl.iit/TransSpecs"
 
-TransformsDeclaration:
+DesiredTransforms:
     "Robot" name= ID
     framesList = FramesList
     transforms = TransformsList
