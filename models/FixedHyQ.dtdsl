@@ -1,0 +1,41 @@
+Robot FixedHyQ
+
+Frames {
+    fr_trunk
+    , fr_LF_hip
+    , fr_RF_hip
+    , fr_LH_hip
+    , fr_RH_hip
+    , fr_LF_leg
+    , fr_LF_lowerleg
+    , LF_foot
+    , fr_RF_leg
+    , fr_RF_lowerleg
+    , RF_foot
+    , fr_LH_leg
+    , fr_LH_lowerleg
+    , LH_foot
+    , fr_RH_leg
+    , fr_RH_lowerleg
+    , RH_foot
+    , fr_LF_HAA
+    , fr_LF_HFE
+    , fr_LF_KFE
+    , fr_RF_HAA
+    , fr_RF_HFE
+    , fr_RF_KFE
+    , fr_LH_HAA
+    , fr_LH_HFE
+    , fr_LH_KFE
+    , fr_RH_HAA
+    , fr_RH_HFE
+    , fr_RH_KFE
+}
+
+Transforms {
+}
+
+Jacobians {
+    base=fr_trunk, target=LF_foot
+    base=fr_trunk, target=RF_foot
+}
