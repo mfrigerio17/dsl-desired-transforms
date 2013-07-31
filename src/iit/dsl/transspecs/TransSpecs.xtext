@@ -5,11 +5,13 @@ import "http://www.dsl.iit/CoordTransDsl" as coordTrans
 generate transSpecs "http://www.dsl.iit/TransSpecs"
 
 DesiredTransforms:
-    "Robot" name= ID
+    Title name= ID
     framesList = FramesList
     transforms = TransformsList
-    jacobians = JacobiansList
+    jacobians = JacobiansList?
 ;
+
+Title : "Robot" | "Model" ;
 
 TransformsList: {TransformsList}
     "Transforms" "{"
