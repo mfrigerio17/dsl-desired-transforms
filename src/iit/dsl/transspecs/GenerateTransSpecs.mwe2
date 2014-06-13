@@ -4,10 +4,10 @@ import org.eclipse.emf.mwe.utils.*
 import org.eclipse.xtext.generator.*
 import org.eclipse.xtext.ui.generator.*
 
-var grammarURI = "classpath:/iit/dsl/transspecs/TransSpecs.xtext"
 var file.extensions = "dtdsl"
-var projectName = "transspecs"
+var projectName = "dsl_desired_transforms"
 var runtimeProject = "../${projectName}"
+var grammarURI = "${runtimeProject}/src/iit/dsl/transspecs/TransSpecs.xtext"
 
 Workflow {
     bean = StandaloneSetup {
@@ -21,7 +21,7 @@ Workflow {
         // The following lines are required to reference elements of the metamodel
         //  of the Coordinates Transforms DSL:
         registerGeneratedEPackage = "iit.dsl.coord.coordTransDsl.CoordTransDslPackage"
-        registerGenModelFile = "platform:/resource/coordtrans_dsl/src-gen/iit/dsl/coord/CoordTransDsl.genmodel"
+        registerGenModelFile = "platform:/resource/dsl_transforms/src-gen/iit/dsl/coord/CoordTransDsl.genmodel"
 	}
 
 	component = DirectoryCleaner {
