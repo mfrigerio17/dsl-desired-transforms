@@ -26,5 +26,22 @@ JacobiansList: {JacobiansList}
 ;
 
 FramePair:
-    "base""="base=[coordTrans::Frame]"," "target""="target=[coordTrans::Frame]
+    ExplicitFramePair | ImplicitFramePair
+;
+
+// This rule is basically an unordered group of two elements
+// The unordered group is modeled explicitly (rather than with the '&' syntax
+//   of Xtext) to allow for the optional comma. The optional comma is there for
+//   backward compatibility with older versions of the grammar.
+ExplicitFramePair:
+    (LeftFrame "="base  =[coordTrans::Frame] ','? RightFrame"="target=[coordTrans::Frame]) |
+    (RightFrame"="target=[coordTrans::Frame] ','? LeftFrame "="base  =[coordTrans::Frame])
+;
+
+LeftFrame : ("base"|"left"|"left_frame");
+RightFrame: ("target"|"right"|"right_frame");
+
+ImplicitFramePair:
+    (target=[coordTrans::Frame] "->" base=[coordTrans::Frame]) |
+    (base=[coordTrans::Frame] "<-" target=[coordTrans::Frame])
 ;
