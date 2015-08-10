@@ -1,16 +1,18 @@
 package iit.dsl.transspecs.utils
 
+import java.util.HashSet
+import org.eclipse.xtext.EcoreUtil2
+
 import iit.dsl.transspecs.transSpecs.DesiredTransforms
 import iit.dsl.transspecs.transSpecs.impl.TransSpecsFactoryImpl
 import iit.dsl.coord.coordTransDsl.FramesList
 import iit.dsl.coord.coordTransDsl.impl.CoordTransDslFactoryImpl
-import java.util.HashSet
 
 import iit.dsl.transspecs.transSpecs.TransformsList
-
-import org.eclipse.xtext.EcoreUtil2
 import iit.dsl.transspecs.transSpecs.FramePair
 import iit.dsl.transspecs.transSpecs.TransSpecsFactory
+import iit.dsl.transspecs.transSpecs.JacobiansList
+
 
 class Utils {
     def public static areTheSame(FramePair p1, FramePair p2) {
@@ -23,6 +25,7 @@ class Utils {
 
         retModel.setFramesList(merge(m1.framesList, m2.framesList))
         retModel.setTransforms(merge(m1.transforms, m2.transforms))
+        retModel.setJacobians (merge(m1.jacobians , m2.jacobians))
         retModel.setName(m1.name + "_merged_with_" + m2.name)
 
         return retModel
@@ -80,6 +83,37 @@ class Utils {
             }
         }
 
+        return retList
+    }
+
+    def public static merge(JacobiansList j1, JacobiansList j2) {
+        if(j1 == null) return j2
+        if(j2 == null) return j1
+
+        val retList = factory.createJacobiansList
+        val set = new HashSet<String>
+
+        for(j : j1.specs) {
+            set.add(myToString(j))
+        }
+
+        val mergedList = retList.specs
+        var FramePair framePair
+        for(j : j1.specs) {
+            framePair = factory.createFramePair
+            framePair.setBase(EcoreUtil2::copy(j.base))
+            framePair.setTarget(EcoreUtil2::copy(j.target))
+            mergedList.add(framePair)
+        }
+
+        for(j : j2.specs) {
+            if( ! set.contains(myToString(j))) {
+                framePair = factory.createFramePair
+                framePair.setBase(EcoreUtil2::copy(j.base))
+                framePair.setTarget(EcoreUtil2::copy(j.target))
+                mergedList.add(framePair)
+            }
+        }
         return retList
     }
 
