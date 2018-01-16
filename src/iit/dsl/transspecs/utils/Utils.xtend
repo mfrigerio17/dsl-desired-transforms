@@ -5,14 +5,12 @@ import org.eclipse.xtext.EcoreUtil2
 
 import iit.dsl.transspecs.transSpecs.DesiredTransforms
 import iit.dsl.transspecs.transSpecs.impl.TransSpecsFactoryImpl
-import iit.dsl.coord.coordTransDsl.FramesList
-import iit.dsl.coord.coordTransDsl.impl.CoordTransDslFactoryImpl
 
 import iit.dsl.transspecs.transSpecs.TransformsList
 import iit.dsl.transspecs.transSpecs.FramePair
 import iit.dsl.transspecs.transSpecs.TransSpecsFactory
 import iit.dsl.transspecs.transSpecs.JacobiansList
-
+import iit.dsl.transspecs.transSpecs.FramesList
 
 class Utils {
     def public static areTheSame(FramePair p1, FramePair p2) {
@@ -32,7 +30,7 @@ class Utils {
     }
 
     def public static merge(FramesList f1, FramesList f2) {
-        val retList = CoordTransDslFactoryImpl::init().createFramesList
+        val retList = TransSpecsFactoryImpl::init().createFramesList
 
         val set = new HashSet<String>()
 
@@ -55,8 +53,8 @@ class Utils {
     }
 
     def public static merge(TransformsList t1, TransformsList t2) {
-        if(t1 == null) return t2
-        if(t2 == null) return t1
+        if(t1 === null) return t2
+        if(t2 === null) return t1
 
         val retList = factory.createTransformsList
         val set = new HashSet<String>
@@ -87,8 +85,8 @@ class Utils {
     }
 
     def public static merge(JacobiansList j1, JacobiansList j2) {
-        if(j1 == null) return j2
-        if(j2 == null) return j1
+        if(j1 === null) return j2
+        if(j2 === null) return j1
 
         val retList = factory.createJacobiansList
         val set = new HashSet<String>
@@ -129,7 +127,7 @@ class Utils {
 
     def public static FramesList getFramesList(TransformsList transforms)
     {
-        val frames = CoordTransDslFactoryImpl::init().createFramesList
+        val frames = TransSpecsFactoryImpl::init().createFramesList
         val namesSet = new HashSet<String>()
         for(spec : transforms.specs) {
             if( ! namesSet.contains(spec.base.name) ) {

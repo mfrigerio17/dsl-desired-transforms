@@ -1,6 +1,6 @@
-grammar iit.dsl.transspecs.TransSpecs with iit.dsl.coord.CoordTransDsl
+grammar iit.dsl.transspecs.TransSpecs with org.eclipse.xtext.common.Terminals
 
-import "http://www.dsl.iit/CoordTransDsl" as coordTrans
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
     
 generate transSpecs "http://www.dsl.iit/TransSpecs"
 
@@ -12,6 +12,14 @@ DesiredTransforms:
 ;
 
 Title : "Robot" | "Model" ;
+
+FramesList:
+    "Frames""{"
+        items += Frame
+        (','items += Frame)*
+     "}"
+;
+Frame: name=ID;
 
 TransformsList: {TransformsList}
     "Transforms" "{"
@@ -34,14 +42,14 @@ FramePair:
 //   of Xtext) to allow for the optional comma. The optional comma is there for
 //   backward compatibility with older versions of the grammar.
 ExplicitFramePair:
-    (LeftFrame "="base  =[coordTrans::Frame] ','? RightFrame"="target=[coordTrans::Frame]) |
-    (RightFrame"="target=[coordTrans::Frame] ','? LeftFrame "="base  =[coordTrans::Frame])
+    (LeftFrame "="base  =[Frame] ','? RightFrame"="target=[Frame]) |
+    (RightFrame"="target=[Frame] ','? LeftFrame "="base  =[Frame])
 ;
 
 LeftFrame : ("base"|"left"|"left_frame");
 RightFrame: ("target"|"right"|"right_frame");
 
 ImplicitFramePair:
-    (target=[coordTrans::Frame] "->" base=[coordTrans::Frame]) |
-    (base=[coordTrans::Frame] "<-" target=[coordTrans::Frame])
+    (target=[Frame] "->" base=[Frame]) |
+    (base=[Frame] "<-" target=[Frame])
 ;
