@@ -16,7 +16,7 @@ Workflow {
 					enabled = false
 				}
 				eclipsePlugin = {
-					enabled = true
+					enabled = false
 				}
 				eclipsePluginTest = {
 					enabled = false
