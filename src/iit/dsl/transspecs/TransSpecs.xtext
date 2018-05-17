@@ -4,11 +4,11 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
     
 generate transSpecs "http://www.dsl.iit/TransSpecs"
 
-DesiredTransforms:
+KinematicsQuery:
     Title name= ID
     framesList = FramesList
-    transforms = TransformsList
-    jacobians = JacobiansList?
+    fks += FK*
+    iks += IK*
 ;
 
 Title : "Robot" | "Model" ;
@@ -21,35 +21,49 @@ FramesList:
 ;
 Frame: name=ID;
 
-TransformsList: {TransformsList}
-    "Transforms" "{"
-        specs+=FramePair*
+FK:
+    "FK" name=ID "{"
+        poses += Pose*
+        velocities += Velocity*
+        jacobians += Jacobian*
     "}"
 ;
 
-JacobiansList: {JacobiansList}
-    "Jacobians" "{"
-       specs+=FramePair*
+IK: IKpos | IKvel;
+
+IKpos:
+    "IKpos" name=ID "{"
+        specs=IKspecs
     "}"
+;
+
+IKvel:
+    "IKvel" name=ID "{"
+        specs=IKspecs
+    "}"
+;
+
+IKspecs: {IKspecs}
+    "vect"   ":" vkind=VectorKind
+    "frames" ":" frames = FramePair
+;
+
+enum VectorKind :
+    lin='linear' | ang='angular' | full='pose'
+;
+
+FK_quantity: Pose | Velocity | Jacobian;
+
+Pose:
+    "pose" ":" frames = FramePair
+;
+Velocity:
+    "velocity" ":" frames = FramePair
+;
+Jacobian:
+    ("Jacobian"|"jacobian") ":" frames = FramePair
 ;
 
 FramePair:
-    ExplicitFramePair | ImplicitFramePair
-;
-
-// This rule is basically an unordered group of two elements
-// The unordered group is modeled explicitly (rather than with the '&' syntax
-//   of Xtext) to allow for the optional comma. The optional comma is there for
-//   backward compatibility with older versions of the grammar.
-ExplicitFramePair:
-    (LeftFrame "="base  =[Frame] ','? RightFrame"="target=[Frame]) |
-    (RightFrame"="target=[Frame] ','? LeftFrame "="base  =[Frame])
-;
-
-LeftFrame : ("base"|"left"|"left_frame");
-RightFrame: ("target"|"right"|"right_frame");
-
-ImplicitFramePair:
-    (target=[Frame] "->" base=[Frame]) |
-    (base=[Frame] "<-" target=[Frame])
+    target=[Frame] "wrt" reference=[Frame]
 ;

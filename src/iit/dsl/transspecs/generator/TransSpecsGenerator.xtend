@@ -3,19 +3,44 @@
  */
 package iit.dsl.transspecs.generator
 
+import iit.dsl.transspecs.transSpecs.KinematicsQuery
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IGenerator2
 import org.eclipse.xtext.generator.IFileSystemAccess2
+import org.eclipse.xtext.generator.IGenerator2
 import org.eclipse.xtext.generator.IGeneratorContext
+import iit.dsl.transspecs.transSpecs.FramePair
 
 class TransSpecsGenerator implements IGenerator2
 {
-	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		//TODO implement me
+	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context)
+	{
+		val model = resource.contents.head as KinematicsQuery
+		for( fk : model.fks) {
+		    System.out.println(fk.name)
+		    for( pose : fk.poses ) {
+		        System.out.println( "Pose: " + toString(pose.frames) )
+		    }
+            for( vel : fk.velocities ) {
+                System.out.println( "Vel: " + toString(vel.frames) )
+            }
+            for( jac : fk.jacobians ) {
+                System.out.println( "Jac: " + toString(jac.frames) )
+            }
+		}
+		System.out.println("\n\n")
+        for( ik : model.iks) {
+            System.out.println(ik.name)
+            System.out.println(ik.specs.vkind)
+            System.out.println( toString(ik.specs.frames) )
+        }
 	}
     override afterGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
     }
     override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
     }
 
+
+    def public toString(FramePair fpair) {
+        return fpair.target.name + " wrt " + fpair.reference.name
+    }
 }

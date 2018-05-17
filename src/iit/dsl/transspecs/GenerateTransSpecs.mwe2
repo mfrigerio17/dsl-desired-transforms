@@ -33,11 +33,6 @@ Workflow {
 			name = "iit.dsl.transspecs.TransSpecs"
 			fileExtensions = "dtdsl"
 
-            // The following line is required to reference elements of the metamodel
-            // of the Coordinate-Transforms-DSL (that is, to import the grammar
-            // of the Transforms-DSL in the grammar of this DSL)
-			referencedResource = "platform:/resource/transformsdsl/model/generated/CoordTransDsl.genmodel"
-
 			serializer = {
 				generateStub = false
 			}
